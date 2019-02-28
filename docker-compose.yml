@@ -1,0 +1,28 @@
+version: "3.3"
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "80:80"
+    networks:
+      - lm
+  web:
+    build: .
+    command: npm start -p 3000
+    volumes:
+      - .:/web
+      - npm_vol:/npm
+    ports:
+     - 8084:3000
+    networks:
+    - lm
+
+volumes:
+  npm_vol:
+networks:
+  lm:
+    external:
+      name: lm
